@@ -1,0 +1,48 @@
+/* Customizations based on my additions to the presentation */
+#logo {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+}
+
+#logo img {
+  max-height: 10%;
+}
+
+footer {
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+}
+
+/* Customizations to Reveal itself */
+.reveal {
+  tab-size: 4;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  -webkit-tab-size: 4;
+}
+
+.reveal .controls {
+  bottom: 20px;
+}
+
+/*
+.reveal li {
+  margin-bottom: 1em;
+}
+.reveal p {
+  line-height: 1.4em;
+  margin-bottom: 1em;
+}
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+  margin-bottom: 0.5em;
+}
+.reveal .lower h1, .reveal .lower h2, .reveal .lower h3, .reveal .lower h4, .reveal .lower h5, .reveal .lower h6 {
+  text-transform: none;
+}
+.reveal footer p {
+  line-height: 0.3em;
+  font-size: 25%;
+}
+*/
