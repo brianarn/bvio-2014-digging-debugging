@@ -73,6 +73,93 @@
             <h2>or lack thereof</h2>
           </section>
 
+          <section>
+            <h3>Creating variables</h3>
+            <p>Simply use the <code>var</code> keyword.</p>
+            <p>Variables don't have any concept of type</p>
+            <pre><code class="javascript">
+  // There are no types in JS
+  var pi = 3.14;        // Number!
+  var greeting = 'Hi';  // String!
+
+  // You can reassign values of different types ad-hoc
+  greeting = 4;         // Now a number!
+  greeting = [1, 2, 3]; // Now an Array!
+
+  // If you don't define a value, its value is `undefined`, a primitive
+  var declaredButNotDefined;
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>What types do exist</h3>
+            <p>JS has Primitives and Objects.</p>
+            <p>Primitives are your lower-level things, like strings, numbers, and booleans. Everything <em>else</em> is an Object.</p>
+          </section>
+
+          <section>
+            <h3>Primitives</h3>
+            <pre><code class="javascript">
+  // Primitives
+  var greeting = 'Hi';                // String
+  var meaningOfLife = 24;             // Number
+  var isPresentationExciting = false; // Boolean
+  var explicitlyEmpty = null;         // Null
+  var declaredButNotDefined;          // undefined
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>Objects</h3>
+            <pre><code class="javascript">
+  // Object literal - defined using curly braces,
+  // followed by key/value pairs.
+  // The values can be any other primitives or objects
+  var bob = {
+    name: 'Bob',
+    location: {
+      city: 'Austin',
+      state: 'Texas'
+    }
+  };
+
+  // Arrays are really just Objects with a different literal syntax
+  // and some other special attributes (which we'll discuss later)
+  var someValues = [1, 2, 3, 4];
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>Primitives vs Objects</h3>
+            <div style="overflow: auto;">
+              <div style="float: left; width: 50%;">
+                <h3>Primitives</h3>
+                <ul>
+                  <li>String</li>
+                  <li>Number</li>
+                  <li>Boolean</li>
+                  <li><code>null</code></li>
+                  <li><code>undefined</code></li>
+                </ul>
+              </div>
+              <div style="float: left; width: 50%;">
+                <h3>Objects</h3>
+                <ul>
+                  <li>String</li>
+                  <li>Number</li>
+                  <li>Boolean</li>
+                  <li>Object</li>
+                  <li>Array</li>
+                </ul>
+              </div>
+            </div>
+            <p class="fragment">... why are there strings, numbers, and booleans in both?</p>
+          </section>
+
+          <section>
+            <h3>Objects for primitive types</h3>
+          </section>
+
         </section><!--/#types-->
 
         <!-- DEMOOOOOOO -->
