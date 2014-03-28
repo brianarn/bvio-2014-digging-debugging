@@ -74,7 +74,7 @@
           </section>
 
           <section>
-            <h3>Creating variables</h3>
+            <h3>Creating Variables</h3>
             <p>Simply use the <code>var</code> keyword.</p>
             <p>Variables don't have any concept of type</p>
             <pre><code class="javascript">
@@ -92,7 +92,7 @@
           </section>
 
           <section>
-            <h3>What types do exist</h3>
+            <h3>What Types Do Exist</h3>
             <p>JS has Primitives and Objects.</p>
             <p>Primitives are your lower-level things, like strings, numbers, and booleans. Everything <em>else</em> is an Object.</p>
           </section>
@@ -145,19 +145,82 @@
               <div style="float: left; width: 50%;">
                 <h3>Objects</h3>
                 <ul>
+                  <li>Object</li>
                   <li>String</li>
                   <li>Number</li>
                   <li>Boolean</li>
-                  <li>Object</li>
-                  <li>Array</li>
+                  <li>Several others</li>
                 </ul>
               </div>
             </div>
-            <p class="fragment">... why are there strings, numbers, and booleans in both?</p>
+            <div class="fragment">
+              <hr>
+              <p>... why are there strings, numbers, and booleans in both?</p>
+            </div>
           </section>
 
           <section>
             <h3>Objects for primitive types</h3>
+              <p>JavaScript will internally create objects for you, letting you use primitives like objects, even though they aren't!</p>
+            <pre><code class="javascript">
+  // Strings have an `indexOf` method to find the
+  // zero-based index of characters
+  'Hello world!'.indexOf('l'); // => 2
+            </code></pre>
+
+            <aside class="notes">
+            <p>JavaScript has Object constructors for standard primitives. These are used in some special ways internally. In general, you don't use them yourself.</p>
+            </aside>
+          </section>
+
+          <section>
+            <h3>Wrapper Objects</h3>
+            <p>These magical objects are called Wrapper Objects.</p>
+            <p>They do <em>not</em> persist in any way, sometimes leaading to unexpected behaviors.</p>
+            <pre><code class="javascript">
+  var whatIsLifeEven = 42;      // => 42
+  whatIsLifeEven.solved = true; // => true
+  whatIsLifeEven.solved;        // undefined
+            </code></pre>
+          </section>
+
+          <section>
+            <h3><code>typeof</code></h3>
+            <p>The <code>typeof</code> operator is quite useful for simple type inspection on primitives</p>
+            <pre><code class="javascript">
+  // These are all pretty sensible
+  typeof 3;         // => 'number'
+  typeof 'trololo'; // => 'string'
+  typeof true;      // => 'boolean'
+
+  // Safest way of cross-browser checking for an `undefined`
+  typeof undefined; // => 'undefined'
+            </code></pre>
+
+            <aside class="notes">
+              <p><code>typeof</code> will always return a string. Always.</p>
+            </aside>
+          </section>
+
+          <section>
+            <p>However, it has some oddities</p>
+            <pre><code class="javascript">
+  // Umm... kinda weird, that's not *really* an object
+  typeof null; // => 'object'
+
+  // NaN represents Not A Number, like the result of `1/0`, so, umm...
+  typeof NaN;  // => 'number'
+
+  // This makes sense, it's an object
+  typeof { foo: 'bar' }; // => 'object'
+
+  // Arrays are also objects - typeof won't give you object types
+  typeof [1,2,3]; // => 'object'
+            </code></pre>
+
+            <aside class="notes">
+              <p>You can use <code>instanceof</code> if you really need to check that something is an array, but that's a much, much less common need than simple primitive inspection
+            </aside>
           </section>
 
         </section><!--/#types-->
