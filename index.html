@@ -110,6 +110,39 @@
           </section>
 
           <section>
+            <h3>Strings</h3>
+            <p>You can use single quotes or double quotes for your strings. No distinctions.</p>
+            <p>If you need to use your quote character of choice, you can backslash escape it.</p>
+            <pre><code class="javascript">
+  var singleString = 'Hi there';
+  var doubleString = "This works too";
+  var someHtml = '&lt;div class="page">Hello World&lt;div>';
+            </code></pre>
+          </section>
+
+          <section>
+            <h3>Numbers</h3>
+            <p>No separation between Ints/Floats/Doubles etc - they're all IEEE 754 floats</p>
+            <pre><code class="javascript">
+  // These are both Numbers, no distinction
+  var myInteger = 7;
+  var myFloat = 3.2;
+            </code></pre>
+
+            <p>There are methods available to parse an integer or float value from a string into a number, but the end representation is ultimately a Number</p>
+          </section>
+
+          <section>
+            <h3>Booleans</h3>
+            <p>Not exactly rocket science here</p>
+            <p>Two possible booleans: <code>true</code> or <code>false</code></p>
+            <pre><code class="javascript">
+  var goodTimes = true;
+  var badTimes = false;
+            </code></pre>
+          </section>
+
+          <section>
             <h3>Objects</h3>
             <pre><code class="javascript">
   // Object literal - defined using curly braces,
@@ -149,7 +182,7 @@
                   <li>String</li>
                   <li>Number</li>
                   <li>Boolean</li>
-                  <li>Several others</li>
+                  <li>Others (Array, Function, etc)</li>
                 </ul>
               </div>
             </div>
@@ -223,7 +256,60 @@
             </aside>
           </section>
 
+          <section>
+            <h2>Not all variables are equal</h2>
+            <h4>But more are equal than you might think, if you're not careful</h4>
+            <pre><code class="javascript">
+  // This will actually run, seriously.
+  if ([0] == "0") {
+    alert('coercion stinks');
+  }
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Two types of Equality</h2>
+            <p>In JS we have strict equality and coercing equality</p>
+            <pre><code class="javascript">
+  // These two will be coerced into equality
+  3 == "3"; // => true
+
+  // The same values will *not* be equal under strict (===) equality
+  3 === "3"; // => false
+            </code></pre>
+            <p>Unless you have a very valid reason to use coercing equality, you probably want to stick with strict equality.</p>
+          </section>
+
+          <section>
+            <h2>Object Equality</h2>
+            <p>Two objects are only equivalent if they are both references to the same object.</p>
+            <p>Values do not get checked whatsoever.</p>
+            <pre><code class="javascript">
+  var bob = { name: 'Bob' };
+  bob === bob; // => true
+
+  // These two array literals are references to different Array objects,
+  // even if their contents are the same, so they are *not* strictly equal
+  [1,2,3] === [1,2,3]; // => false
+
+  // Coercion can do unexpected things with objects (another reason to stay strict)
+  [0] == "0"; // => true
+            </code></pre>
+            <p>Useful guide: <a href="http://dorey.github.io/JavaScript-Equality-Table/#three-equals">JavaScript Equality Guide</a></p>
+          </section>
+
+          <section>
+            <h2>Questions on Types?</h2>
+            <img class="fragment" src="images/its-happening.gif" alt="It's happening!">
+          </section>
+
         </section><!--/#types-->
+
+        <section id="scope">
+        </section><!--/#scope-->
+
+        <section id="prototypes">
+        </section><!--/#prototypes-->
 
         <!-- DEMOOOOOOO -->
 
