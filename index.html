@@ -64,6 +64,17 @@
             </ul>
           </section>
 
+          <section>
+            <h2>Common patterns in this presentation</h2>
+            <pre><code class="javascript">
+  // Comments with `=>` imply the result of the evaluation
+  parseInt('10.2'); // => 10
+
+  // For ease of copy/paste execution, we may use `console.log`
+  console.log('Hello world!');
+            </code></pre>
+          </section>
+
         </section><!--/#introduction-->
 
         <section id="types">
@@ -88,6 +99,9 @@
 
   // If you don't define a value, its value is `undefined`, a primitive
   var declaredButNotDefined;
+
+  // You can declare more than one, just separate with commas
+  var foo, bar, baz;
             </code></pre>
           </section>
 
@@ -306,9 +320,181 @@
         </section><!--/#types-->
 
         <section id="scope">
+
+          <section>
+            <h1>Scope</h1>
+            <h2>Keeping yours minty fresh</h2>
+          </section>
+
+          <section>
+            <h2>Lexical scope</h2>
+            <p>JavaScript's scope is lexical - variables live in a scope defined by local lexical environment, not running environment</p>
+            <p>Unlike many languages, code blocks are <strong>not</strong> the lexical closure. In JS, functions are.</p>
+          </section>
+
+          <section>
+            <h2>Functions</h2>
+            <p>Functions are the way that we do most of our work in JS:</p>
+            <ul>
+              <li>They create new areas of scope</li>
+              <li>They are first class objects and can be passed around as arguments or even returned from other functions</li>
+              <li>Many APIs you'll use with JavaScript take in functions as arguments (callbacks)</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Function Declarations</h2>
+            <pre><code class="javascript">
+  // A simple declaration consists of the following:
+  // * The keyword `function`
+  // * A name for the function
+  // * A set of parenthesis, containing zero or more named arguments
+  // * A block statement defining the body of the function
+  function cleanAllTheThings (things) {
+    // Your magical code here
+  }
+            </code></pre>
+            <p>A function declaration is one of the most common ways of creating a function.</p>
+          </section>
+
+          <section>
+            <h2>Function Expression</h2>
+            <p>A function expression is basically a function defined in such a way that <code>function</code> isn't the first part of the line of code</p>
+            <pre><code class="javascript">
+  // A function expression has similar syntax, but does not require a name
+  // though you *can* name them, if you so choose.
+  var cleanAllTheThings = function (things) {
+    // Your magical code here
+  }
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Back to Scope</h2>
+            <h3>Functions define levels of scope</h3>
+            <pre><code class="javascript">
+  var someGlobal = true; // Outside of functions, variables are global.
+
+  function doSomething () {
+    var count = 10; // Local to `doSomething`.
+
+    // We can nest functions for nested scope
+    function reallyDoSomething () {
+      // As `reallyDoSomething` is defined in the scope of `doSomething`,
+      // it has access to `count`.
+      for (var i = 0; i &lt; count; i++) {
+        // In here we're in a block - in many languages,
+        // this would be a clean scope. Not in JS!
+      }
+    }
+  }
+            </code></pre>
+
+            <aside class="notes">
+              <p>Because blocks aren't a clean scope, it's generally considered to be a bad idea to declare variables in them.</p>
+              <p>Having globals all over is gross. How do we overcome that? IIFEs!</p>
+            </aside>
+          </section>
+
+          <section>
+            <h2>IIFE: Keeping global clean</h2>
+            <p>A common pattern in JS is the<br>Immediately Invoked Function Expression (IIFE).</p>
+            <p>You wrap your code in a function expression, which you then immediately invoke.</p>
+            <pre><code class="javascript">
+  (function () {
+    // Any variables in here will be local to the surrounding IIFE.
+    var cleanScope = true;
+
+    // If you need to expose something outside of your current scope,
+    // you can modify `this` and add a property.
+  })();
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>Hoisting</h2>
+            <p>When a function is entered, it is scanned for variables and function <em>declarations</em>, which are then available through the full function.</p>
+            <pre><code class="javascript">
+  (function () {
+    // Without a `var`, variables are automatically global.
+    isThisAGlobal = false;
+
+    // Except in this case, hoisting carried the variable declaration
+    // up, so it's not actually a global.
+    var isThisAGlobal;
+
+    // The declaration is hoisted, but the definition is *not* hoisted
+    four === 4;         // => false
+    four === undefined; // => true
+    var four = 4;       // four has now been defined to be the number 4
+    four === 4;         // => true
+  })();
+            </code></pre>
+          </section>
+
+          <section>
+            <h2>When hoisting attacks</h2>
+            <p>Since function declarations hoist,<br>but function expressions do not, you can get bit!</p>
+            <pre><code class="javascript">
+  // This call is perfectly valid, as the function declaration is hoisted
+  sayHi();
+
+  // This throws an error:
+  // `sayHello` as a variable was hoisted, but its value is `undefined`
+  // and `undefined` is not a function, so ERROR!
+  sayHello();
+
+  function sayHi () {
+    console.log('Hi!');
+  }
+
+  var sayHello = function () {
+    console.log('Hello!');
+  }
+            </code></pre>
+            <p>Be careful!</p>
+          </section>
+
+          <section>
+            <h2>Exposing a global intentionally</h2>
+            <p>Sometimes you gotta do what you gotta do</p>
+            <pre><code class="javascript">
+  (function () {
+    // Local variable and function declaration
+    var id = 0;
+    function getNextID () {
+      return id++;
+    }
+
+    // In an IIFE, `this` is the global object, so assigning a property
+    // effectively exposes a global (equivalent to `window` in browsers)
+    this.getNextID = getNextID;
+  })();
+
+  console.log(getNextID()); // Logs '0'
+  console.log(getNextID()); // Logs '1'
+  console.log(id);          // What do you think will happen here?
+            </code></pre>
+          </section>
+
+          <section>
+            <img src="images/yuo-are-smart.gif" alt="You are smart!">
+          </section>
+
+          <section>
+            <h2>That's scope!</h2>
+            <p>Questions?</p>
+          </section>
+
         </section><!--/#scope-->
 
         <section id="prototypes">
+
+          <section>
+            <h1>Prototypes</h1>
+            <h2>This is where brains melt a little</h2>
+          </section>
+
         </section><!--/#prototypes-->
 
         <!-- DEMOOOOOOO -->
