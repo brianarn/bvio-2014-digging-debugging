@@ -15,6 +15,11 @@ footer {
   right: 5px;
 }
 
+footer p {
+  line-height: 0.3em;
+  font-size: 25%;
+}
+
 /* Customizations to Reveal itself */
 .reveal {
   tab-size: 4;
@@ -47,9 +52,4 @@ footer {
 
 .reveal .upper h1, .reveal .upper h2, .reveal .upper h3, .reveal .upper h4, .reveal .upper h5, .reveal .upper h6 {
   text-transform: uppercase;
-}
-
-.reveal footer p {
-  line-height: 0.3em;
-  font-size: 25%;
 }
