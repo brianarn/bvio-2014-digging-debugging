@@ -30,6 +30,7 @@ footer p {
 
 .reveal .controls {
   bottom: 20px;
+  display: none !important;
 }
 
 .reveal li {
