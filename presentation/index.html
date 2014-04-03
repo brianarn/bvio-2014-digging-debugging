@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8">
 
-    <title>JavaScript: What makes it different</title>
+    <title>Digging, Debugging: BV.IO 2014</title>
 
-    <meta name="description" content="JavaScript contains significant differences from other languages. This presentation aims to help people move into JS when they already have a foundation in something like, say, Java">
+    <meta name="description" content="Debugging is hard, yo. Learn some tools.">
     <meta name="author" content="Brian Arnold">
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -46,727 +46,209 @@
         <section id="introduction">
 
           <section>
-            <h1>Unique things in JavaScript</h1>
-            <h2 class="fragment">Alt title:<br><code>JS !== Java</code></h2>
-            <h4 class="fragment">"WHY IS THIS NOT WORKING LIKE I THINK IT WILL ARGH"</h4>
+            <h1>Digging, Debugging</h1>
+            <h2>&lt;witty subtitle here&gt;</h2>
+            <p style="padding-top: 3em; font-size: 0.7em">Hashtags: #digdebug #bvio2014</p>
           </section>
 
           <section>
-            <img src="images/tweet_js_name.png" alt="Saying that JavaScript was invented is preposterous. Everyone knows that ancient, nameless heresies are revealed, not invented.">
-            <a href="https://twitter.com/othiym23/status/448160163317305347" target="_blank">https://twitter.com/othiym23/status/448160163317305347</a>
-          </section>
-
-          <section>
-            <h2>Assumptions</h2>
+            <h3>Brian Arnold</h3>
+            <p>
+            <a href="http://twitter.com/brianarn">@brianarn</a> | <a href="http://www.randomthink.net">randomthink.net</a>
+            </p>
             <ul>
-              <li>You have experience with classical object-oriented programming (Java, C++, etc)</li>
-              <li>You may know some HTML / CSS or at least have some basics</li>
-              <li>Maybe you used jQuery once maybe</li>
+              <li>Senior Software Engineer @ <a href="http://www.bazaarvoice.com">Bazaarvoice</a></li>
+              <li>Previously: Lead Support &amp; Software Engineer at <a href="http://www.sitepen.com">SitePen</a></li>
+              <li><a href="http://dojotoolkit.org">Dojo</a> core committer</li>
+              <li>Lord of Waterdeep</li>
+              <li>Rock Band guitar expert</li>
             </ul>
           </section>
 
           <section>
-            <h2>Agenda</h2>
+            <h2>Outline</h2>
             <ul>
-              <li>Types (or lack thereof)</li>
-              <li>Scope</li>
-              <li>Prototypes</li>
+              <li>Non-technical tips</li>
+              <li>Understand the tools</li>
+              <li>Techniques</li>
             </ul>
-          </section>
-
-          <section>
-            <h2>Common patterns in this presentation</h2>
-            <pre><code class="javascript">
-  // Comments with `=>` imply the result of the evaluation
-  parseInt('10.2'); // => 10
-
-  // For ease of copy/paste execution, we may use `console.log`
-  console.log('Hello world!');
-            </code></pre>
           </section>
 
         </section><!--/#introduction-->
 
-        <section id="types">
+        <section id="nontech">
 
           <section>
-            <h1>Types</h1>
-            <h2>or lack thereof</h2>
+            <h1>Non-technical Tips</h1>
           </section>
 
           <section>
-            <h3>Creating Variables</h3>
-            <p>Simply use the <code>var</code> keyword.</p>
-            <p>Variables don't have any concept of type</p>
-            <pre><code class="javascript">
-  // There are no types in JS
-  var pi = 3.14;        // Number!
-  var greeting = 'Hi';  // String!
-
-  // You can reassign values of different types ad-hoc
-  greeting = 4;         // Now a number!
-  greeting = [1, 2, 3]; // Now an Array!
-
-  // If you don't define a value, its value is `undefined`, a primitive
-  var declaredButNotDefined;
-
-  // You can declare more than one, just separate with commas
-  var foo, bar, baz;
-            </code></pre>
+            <h2>Learn JavaScript</h2>
+            <h3>No, really, learn the core</h3>
+            <p>Read the spec, read JS: TDG, go beyond the good parts</p>
+            <img src="images/jstgptdg.jpg" alt="lol">
           </section>
 
           <section>
-            <h3>What Types Do Exist</h3>
-            <p>JS has Primitives and Objects.</p>
-            <p>Primitives are your lower-level things, like strings, numbers, and booleans. Everything <em>else</em> is an Object.</p>
+            <h2>Learn about DevTools</h2>
+            <h3>We'll talk more about this later</h3>
+            <blockquote>
+              <p>To the dev who has only a <code>console.log</code>, everything looks like a string</p>
+            </blockquote>
           </section>
 
           <section>
-            <h3>Primitives</h3>
-            <pre><code class="javascript">
-  // Primitives
-  var greeting = 'Hi';                // String
-  var meaningOfLife = 24;             // Number
-  var isPresentationExciting = false; // Boolean
-  var explicitlyEmpty = null;         // Null
-  var declaredButNotDefined;          // undefined
-            </code></pre>
-          </section>
-
-          <section>
-            <h3>Strings</h3>
-            <p>You can use single quotes or double quotes for your strings. No distinctions.</p>
-            <p>If you need to use your quote character of choice, you can backslash escape it.</p>
-            <pre><code class="javascript">
-  var singleString = 'Hi there';
-  var doubleString = "This works too";
-  var someHtml = '&lt;div class="page">Hello World&lt;div>';
-            </code></pre>
-          </section>
-
-          <section>
-            <h3>Numbers</h3>
-            <p>No separation between Ints/Floats/Doubles etc - they're all IEEE 754 floats</p>
-            <pre><code class="javascript">
-  // These are both Numbers, no distinction
-  var myInteger = 7;
-  var myFloat = 3.2;
-            </code></pre>
-
-            <p>There are methods available to parse an integer or float value from a string into a number, but the end representation is ultimately a Number</p>
-          </section>
-
-          <section>
-            <h3>Booleans</h3>
-            <p>Not exactly rocket science here</p>
-            <p>Two possible booleans: <code>true</code> or <code>false</code></p>
-            <pre><code class="javascript">
-  var goodTimes = true;
-  var badTimes = false;
-            </code></pre>
-          </section>
-
-          <section>
-            <h3>Objects</h3>
-            <pre><code class="javascript">
-  // Object literal - defined using curly braces,
-  // followed by key/value pairs.
-  // The values can be any other primitives or objects
-  var bob = {
-    name: 'Bob',
-    location: {
-      city: 'Austin',
-      state: 'Texas'
-    }
-  };
-
-  // Arrays are really just Objects with a different literal syntax
-  // and some other special attributes (which we'll discuss later)
-  var someValues = [1, 2, 3, 4];
-            </code></pre>
-          </section>
-
-          <section>
-            <h3>Primitives vs Objects</h3>
-            <div style="overflow: auto;">
-              <div style="float: left; width: 50%;">
-                <h3>Primitives</h3>
-                <ul>
-                  <li>String</li>
-                  <li>Number</li>
-                  <li>Boolean</li>
-                  <li><code>null</code></li>
-                  <li><code>undefined</code></li>
-                </ul>
-              </div>
-              <div style="float: left; width: 50%;">
-                <h3>Objects</h3>
-                <ul>
-                  <li>Object</li>
-                  <li>String</li>
-                  <li>Number</li>
-                  <li>Boolean</li>
-                  <li>Others (Array, Function, etc)</li>
-                </ul>
-              </div>
-            </div>
-            <div class="fragment">
-              <hr>
-              <p>... why are there strings, numbers, and booleans in both?</p>
-            </div>
-          </section>
-
-          <section>
-            <h3>Objects for primitive types</h3>
-              <p>JavaScript will internally create objects for you, letting you use primitives like objects, even though they aren't!</p>
-            <pre><code class="javascript">
-  // Strings have an `indexOf` method to find the
-  // zero-based index of characters
-  'Hello world!'.indexOf('l'); // => 2
-            </code></pre>
-
-            <aside class="notes">
-            <p>JavaScript has Object constructors for standard primitives. These are used in some special ways internally. In general, you don't use them yourself.</p>
-            </aside>
-          </section>
-
-          <section>
-            <h3>Wrapper Objects</h3>
-            <p>These magical objects are called Wrapper Objects.</p>
-            <p>They do <em>not</em> persist in any way, sometimes leaading to unexpected behaviors.</p>
-            <pre><code class="javascript">
-  var whatIsLifeEven = 42;      // => 42
-  whatIsLifeEven.solved = true; // => true
-  whatIsLifeEven.solved;        // undefined
-            </code></pre>
-          </section>
-
-          <section>
-            <h3><code>typeof</code></h3>
-            <p>The <code>typeof</code> operator is quite useful for simple type inspection on primitives</p>
-            <pre><code class="javascript">
-  // These are all pretty sensible
-  typeof 3;         // => 'number'
-  typeof 'trololo'; // => 'string'
-  typeof true;      // => 'boolean'
-
-  // Safest way of cross-browser checking for an `undefined`
-  typeof undefined; // => 'undefined'
-            </code></pre>
-
-            <aside class="notes">
-              <p><code>typeof</code> will always return a string. Always.</p>
-            </aside>
-          </section>
-
-          <section>
-            <p>However, it has some oddities</p>
-            <pre><code class="javascript">
-  // Umm... kinda weird, that's not *really* an object
-  typeof null; // => 'object'
-
-  // NaN represents Not A Number, like the result of `1/0`, so, umm...
-  typeof NaN;  // => 'number'
-
-  // This makes sense, it's an object
-  typeof { foo: 'bar' }; // => 'object'
-
-  // Arrays are also objects - typeof won't give you object types
-  typeof [1,2,3]; // => 'object'
-            </code></pre>
-
-            <aside class="notes">
-              <p>You can use <code>instanceof</code> if you really need to check that something is an array, but that's a much, much less common need than simple primitive inspection
-            </aside>
-          </section>
-
-          <section>
-            <h2>Not all variables are equal</h2>
-            <h4>But more are equal than you might think, if you're not careful</h4>
-            <pre><code class="javascript">
-  // This will actually run, seriously.
-  if ([0] == "0") {
-    alert('coercion stinks');
-  }
-            </code></pre>
-          </section>
-
-          <section>
-            <h2>Two types of Equality</h2>
-            <p>In JS we have strict equality and coercing equality</p>
-            <pre><code class="javascript">
-  // These two will be coerced into equality
-  3 == "3"; // => true
-
-  // The same values will *not* be equal under strict (===) equality
-  3 === "3"; // => false
-            </code></pre>
-            <p>Unless you have a very valid reason to use coercing equality, you probably want to stick with strict equality.</p>
-          </section>
-
-          <section>
-            <h2>Object Equality</h2>
-            <p>Two objects are only equivalent if they are both references to the same object.</p>
-            <p>Values do not get checked whatsoever.</p>
-            <pre><code class="javascript">
-  var bob = { name: 'Bob' };
-  bob === bob; // => true
-
-  // These two array literals are references to different Array objects,
-  // even if their contents are the same, so they are *not* strictly equal
-  [1,2,3] === [1,2,3]; // => false
-
-  // Coercion can do unexpected things with objects
-  // (another reason to stay strict)
-  [0] == "0"; // => true
-            </code></pre>
-            <p>Useful guide: <a href="http://dorey.github.io/JavaScript-Equality-Table/#three-equals">JavaScript Equality Guide</a></p>
-          </section>
-
-          <section>
-            <h2>Questions on Types?</h2>
-            <img class="fragment" src="images/its-happening.gif" alt="It's happening!">
-          </section>
-
-        </section><!--/#types-->
-
-        <section id="scope">
-
-          <section>
-            <h1>Scope</h1>
-            <h2>Keeping yours minty fresh</h2>
-          </section>
-
-          <section>
-            <h2>Lexical scope</h2>
-            <p>JavaScript's scope is lexical - variables live in a scope defined by local lexical environment, not running environment</p>
-            <p>Unlike many languages, code blocks are <strong>not</strong> the lexical closure. In JS, functions are.</p>
-          </section>
-
-          <section>
-            <h2>Functions</h2>
-            <p>Functions are the way that we do most of our work in JS:</p>
+            <h2>Rubber Duck</h2>
             <ul>
-              <li>They create new areas of scope</li>
-              <li>They are first class objects and can be passed around as arguments or even returned from other functions</li>
-              <li>Many APIs you'll use with JavaScript take in functions as arguments (callbacks)</li>
+              <li>Colleagues</li>
+              <li>Friends at other shops</li>
+              <li>An actual rubber duck</li>
             </ul>
           </section>
 
           <section>
-            <h2>Function Declarations</h2>
-            <pre><code class="javascript">
-  // A simple declaration consists of the following:
-  // * The keyword `function`
-  // * A name for the function
-  // * A set of parenthesis, containing zero or more named arguments
-  // * A block statement defining the body of the function
-  function cleanAllTheThings (things) {
-    // Your magical code here
-  }
-            </code></pre>
-            <p>A function declaration is one of the most common ways of creating a function.</p>
+            <h2>Use a style guide, damnit</h2>
+            <p>Inconsistently written code SUCKS</p>
+            <p>Look into things like <a href="https://github.com/rwaldron/idiomatic.js/">Idiomatic</a> for a starting point, and <a href="http://editorconfig.org">EditorConfig</a> to help enforce it</p>
+            <blockquote>
+              <p>You don't write code for yourself, you write it for the moron who has to maintain it in a year.</p>
+              <p>More often than not, <strong>you</strong> are that moron.</p>
+            </blockquote>
+          </section>
+
+        </section><!--/#nontech-->
+
+        <section id="tools">
+
+          <section>
+            <h1>Understand the tools</h1>
           </section>
 
           <section>
-            <h2>Function Expression</h2>
-            <p>A function expression is basically a function defined in such a way that <code>function</code> isn't the first part of the line of code</p>
-            <pre><code class="javascript">
-  // A function expression has similar syntax, but does not require a name
-  // though you *can* name them, if you so choose.
-  var cleanAllTheThings = function (things) {
-    // Your magical code here
-  }
-            </code></pre>
+            <h2>Command Line API</h2>
+            <p>Originally pioneered in Firebug, now fairly ubiquitous</p>
+            <p>Feature support varies, learn your environment of choice</p>
           </section>
 
           <section>
-            <h2>Back to Scope</h2>
-            <h3>Functions define levels of scope</h3>
-            <pre><code class="javascript">
-  var someGlobal = true; // Outside of functions, variables are global.
-
-  function doSomething () {
-    var count = 10; // Local to `doSomething`.
-
-    // We can nest functions for nested scope
-    function reallyDoSomething () {
-      // As `reallyDoSomething` is defined in the scope of `doSomething`,
-      // it has access to `count`.
-      for (var i = 0; i &lt; count; i++) {
-        // In here we're in a block - in many languages,
-        // this would be a clean scope. Not in JS!
-      }
-    }
-  }
-            </code></pre>
-
-            <aside class="notes">
-              <p>Because blocks aren't a clean scope, it's generally considered to be a bad idea to declare variables in them.</p>
-              <p>Having globals all over is gross. How do we overcome that? IIFEs!</p>
-            </aside>
-          </section>
-
-          <section>
-            <h2>IIFE: Keeping global clean</h2>
-            <p>A common pattern in JS is the<br>Immediately Invoked Function Expression (IIFE).</p>
-            <p>You wrap your code in a function expression, which you then immediately invoke.</p>
-            <pre><code class="javascript">
-  (function () {
-    // Any variables in here will be local to the surrounding IIFE.
-    var cleanScope = true;
-
-    // If you need to expose something outside of your current scope,
-    // you can modify `this` and add a property.
-  })();
-            </code></pre>
-          </section>
-
-          <section>
-            <h2>Hoisting</h2>
-            <p>When a function is entered, it is scanned for variables and function <em>declarations</em>, which are then available through the full function.</p>
-            <pre><code class="javascript">
-  (function () {
-    // Without a `var`, variables are automatically global.
-    isThisAGlobal = false;
-
-    // Except in this case, hoisting carried the variable declaration
-    // up, so it's not actually a global.
-    var isThisAGlobal;
-
-    // The declaration is hoisted, but the definition is *not* hoisted
-    four === 4;         // => false
-    four === undefined; // => true
-    var four = 4;       // four has now been defined to be the number 4
-    four === 4;         // => true
-  })();
-            </code></pre>
-          </section>
-
-          <section>
-            <h2>When hoisting attacks</h2>
-            <p>Since function declarations hoist,<br>but function expressions do not, you can get bit!</p>
-            <pre><code class="javascript">
-  // This call is perfectly valid, as the function declaration is hoisted
-  sayHi();
-
-  // This throws an error:
-  // `sayHello` as a variable was hoisted, but its value is `undefined`
-  // and `undefined` is not a function, so ERROR!
-  sayHello();
-
-  function sayHi () {
-    console.log('Hi!');
-  }
-
-  var sayHello = function () {
-    console.log('Hello!');
-  }
-            </code></pre>
-            <p>Be careful!</p>
-          </section>
-
-          <section>
-            <h2>Exposing a global intentionally</h2>
-            <p>Sometimes you gotta do what you gotta do</p>
-            <pre><code class="javascript">
-  (function () {
-    // Local variable and function declaration
-    var id = 0;
-    function getNextID () {
-      return id++;
-    }
-
-    // In an IIFE, `this` is the global object, so assigning a property
-    // effectively exposes a global (equivalent to `window` in browsers)
-    this.getNextID = getNextID;
-  })();
-
-  console.log(getNextID()); // Logs '0'
-  console.log(getNextID()); // Logs '1'
-  console.log(id);          // What do you think will happen here?
-            </code></pre>
-          </section>
-
-          <section>
-            <img src="images/yuo-are-smart.gif" alt="You are smart!">
-          </section>
-
-          <section>
-            <h2>That's scope!</h2>
-            <p>Questions?</p>
-          </section>
-
-        </section><!--/#scope-->
-
-        <section id="prototypes">
-
-          <section>
-            <h1>Prototypes</h1>
-            <h2>This is where brains melt a little</h2>
-          </section>
-
-          <section>
-            <h2>Prototypes vs Classes</h2>
-            <p>JavaScript doesn't have classes, but does have constructors</p>
-            <p>Functions can be used to create objects that inherit from a prototype</p>
-          </section>
-
-          <section>
-            <h2>Function Invocation</h2>
-            <p>There are a few ways to invoke a function, and each approach changes the meaning of <code>this</code> in the function.</p>
-          </section>
-
-          <section>
-            <h2>Standard Invocation</h2>
-            <pre><code class="javascript">
-  // By default, `this` is the global object under a standard invocation
-  function doSomething () {
-    console.log(this);
-  }
-
-  // Standard invocation is simply using the function's name with parenthesis
-  doSomething(); // => Causes the window to be logged
-            </code></pre>
-          </section>
-
-          <section>
-            <h2>Invocation as a method</h2>
-            <pre><code class="javascript">
-  // When a function is a property of an object,
-  // and invoked as that property,
-  // `this` is the object it is invoked from
-  var bob = {
-    // Our name will just be a simple property
-    name : 'Bob',
-
-    // This will serve as a method for this object,
-    // with access to properties through `this`
-    sayHi : function () {
-      console.log(this.name + ' says Hi!');
-    }
-  };
-
-  // Invocation as a method
-  bob.sayHi();
-            </code></pre>
-          </section>
-
-          <section>
-            <h2>Methods aren't bound</h2>
-            <pre><code class="javascript">
-  // Here's Bob again
-  var bob = {
-    name : 'Bob',
-    sayHi : function () {
-      console.log(this.name + ' says Hi!');
-    }
-  };
-
-  // Let's get a reference to the method
-  var bobSaysHi = bob.sayHi; // Note: No parens, not invoking
-  bobSaysHi(); // Logs ' says Hi!' -- really
-            </code></pre>
-          </section>
-
-          <section>
-            <h2>What's going on?</h2>
-            <p>Methods of objects are simply just references to functions.</p>
-            <p>There is no hard binding between functions and objects - it's simply how the function is invoked that determines what the value of <code>this</code> is in the context of the function.</p>
-          </section>
-
-          <section>
-            <h2>Changing <code>this</code></h2>
-            <pre><code class="javascript">
-  var bob = {
-    name : 'Bob',
-    sayHi : function () {
-      console.log(this.name + ' says Hi!');
-    }
-  };
-
-  // Get our reference again
-  var bobSaysHi = bob.sayHi;
-
-  // We can use `call` or `apply` to force the value of `this`
-  bobSaysHi.call(bob); // Logs 'Bob says Hi!'
-
-  // We can also create a context-bound version using `bind`
-  var bobSaysHiBound = bobSaysHi.bind(bob);
-  bobSaysHiBound(); // Logs 'Bob says Hi!'
-            </code></pre>
-          </section>
-
-          <section>
-            <h2>Wait, aren't we talking prototypes?</h2>
-          </section>
-
-          <section>
-            <h2>Invoking functions with <code>new</code></h2>
-            <p>When you invoke a function with <code>new</code>, a few special things happen.</p>
+            <h2>Moving between Elements and Console</h2>
             <ul>
-              <li>A new object is created</li>
-              <li>Its prototype is set to the prototype of the function</li>
-              <li>The function is invoked, setting `this` to be the new object</li>
-              <li>If there is no explicit return from the function, the new object is implicitly returned</li>
+              <li><code>$0</code></li>
+              <li><code>$_</code></li>
+              <li><code>inspect</code></li>
             </ul>
           </section>
 
           <section>
-            <h2>A simple constructor: Person</h2>
-            <pre><code class="javascript">
-  // This function will serve as a constructor for Person objects
-  // It's kind of like a class, but it *isn't* a class
-  function Person (name) {
-    this.name = name;
-  }
-
-  // Now, we can make Bob again
-  var bob = new Person('Bob');
-  console.log(bob.name); // Logs 'Bob'
-            </code></pre>
-            <p class="fragment">... where's <code>sayHi</code>?</p>
-          </section>
-
-          <section>
-            <h2>Defining a prototype</h2>
-            <pre><code class="javascript">
-  function Person (name) {
-    this.name = name;
-  }
-
-  Person.prototype.sayHi = function () {
-    console.log(this.name + ' says Hi!');
-  };
-
-  var bob = new Person('Bob');
-  bob.sayHi(); // Logs 'Bob says Hi!'
-            </code></pre>
-          </section>
-
-          <section>
-            <h2>Prototypal Inheritance</h2>
-            <pre><code class="javascript">
-  function Person (name) {
-    this.name = name;
-  }
-
-  Person.prototype.sayHi = function () {
-    console.log(this.name + ' says ' + this.greeting + '!');
-  };
-  Person.prototype.greeting = 'Hi';
-
-  var bob = new Person('Bob');
-  bob.sayHi(); // Logs 'Bob says Hi!'
-
-  Person.prototype.greeting = 'Hello';
-  bob.sayHi(); // Logs 'Bob says Hello!'
-            </code></pre>
-          </section>
-
-          <section>
-            <h2>Prototype Inheritance</h2>
-            <p>In this example, instances of <code>Person</code> do <em>not</em> have a <code>greeting</code> property or <code>sayHi</code> method.</p>
-            <p>Instead, what happens is that these properties are looked up through the prototype chain.</p>
-            <pre><code class="javascript">
-  // We can check instances directly for properties using `hasOwnProperty`
-  console.log(bob.hasOwnProperty('name'));     // Logs 'true'
-  console.log(bob.hasOwnProperty('greeting')); // Logs 'false'
-            </code></pre>
-          </section>
-
-          <section>
-            <h2>Property Lookup</h2>
-            <p>When a property is requested on an object, that object is inspected for it.</p>
-            <p>If it doesn't have the property, it looks on the prototype. If the prototype doesn't have it, it looks against the prototype's prototype, on and on, until it either finds one or finds nothing.</p>
-            <p>If nothing is found, it is <em>not</em> an error, and simply returns <code>undefined</code>.</p>
-          </section>
-
-          <section>
-            <h2>Simple Inheritance</h2>
-            <pre><code class="javascript">
-  // We'll use our Person as a base "class" of sorts
-  function Person (name) {
-    this.name = name;
-  }
-
-  Person.prototype.sayHi = function () {
-    console.log(this.name + ' says Hi!');
-  }
-            </code></pre>
-
-            <aside class="notes">
-              <p>In this case, our `new Person` as the prototype doesn't have a name, but that's okay, since we override it in our constructor</p>
-            </aside>
-          </section>
-
-          <section>
-            <h2>Simple Inheritance</h2>
-            <pre><code class="javascript">
-  // Now, we'll make Employee as a "child class" of sorts
-  function Employee (name, role) {
-    // Kind of like a super call - not *exactly*, bit similar
-    Person.call(this, name);
-
-    this.role = role;
-  }
-
-  // Set up the prototype chain
-  // (Doesn't work in older browsers, can be shimmed)
-  Employee.prototype = Object.create(Person.prototype);
-
-  // Once created, we can augment it
-  Employee.prototype.sayRole = function () {
-    console.log(this.name + ' says "I am a ' + this.role + '!"');
-  };
-            </code></pre>
-
-            <aside class="notes">
-              <p>In this case, our `new Person` as the prototype doesn't have a name, but that's okay, since we override it in our constructor</p>
-            </aside>
-          </section>
-
-          <section>
-            <h2>Simple Inhertance</h2>
-            <pre><code class="javascript">
-  // Let's make an Employee!
-  var joe = new Employee('Joe', 'grunt');
-
-  // Joe can say his role
-  joe.sayRole(); // Logs 'Joe says "I am a grunt!"'
-
-  // Because Employee has Person in its prototype chain,
-  // Joe can also simply say Hi, due to prototypal inheritance
-  joe.sayHi(); // Logs 'Joe says Hi!'
-            </code></pre>
-          </section>
-
-          <section>
-            <h2>What's coming from where?</h2>
-            <p>In the prior example, the various properties:</p>
+            <h2>Detailed viewing</h2>
             <ul>
-              <li><code>name</code>: Directly on Joe, as it was assigned in construction</li>
-              <li><code>sayRole</code>: On the Employee prototype, which was Joe's prototype</li>
-              <li><code>sayHi</code>: On the Person prototype, available from Employee's prototype's prototype</li>
+              <li><code>console.*</code></li>
+              <li><code>dir</code></li>
+              <li><code>copy</code></li>
             </ul>
           </section>
 
           <section>
-            <h2>Key takeaways</h2>
-            <p>Prototypes are the native way to set up inheritance.</p>
-            <p>There isn't language support for mixins or multiple inheritance, though there are libraries out there that fake it.</p>
-            <p>Given that lookups happen at runtime, you can change prototypes on the fly and all objects that inherit from it will be able to access that new property.</p>
-            <p>In a way, it's just like scope, but instead of variable lookup, it's property lookup!</p>
+            <h2>STOP THE PRESSES</h2>
+            <ul>
+              <li><code>debugger;</code></li>
+              <li>Breakpoints</li>
+              <li>Watch things</li>
+            </ul>
           </section>
 
           <section>
-            <h2>Questions?</h2>
-            <img src="images/mind-blown.gif" alt="Did I just blow your mind y/n">
+            <h2>Other types of breaks</h2>
+            <ul>
+              <li>DOM Breakpoints</li>
+              <li>XHR Breakpoints</li>
+            </ul>
           </section>
 
-        </section><!--/#prototypes-->
+          <section>
+            <h2>Sources</h2>
+            <ul>
+              <li>Fuzzy finder opening</li>
+              <li>Pretty printing</li>
+              <li>Breaking on some/all errors</li>
+            </ul>
+          </section>
 
-      </div> <!--/.slides-->
+        </section><!--/#tools-->
+
+        <section id="techniques">
+
+          <section>
+            <h1>Techniques</h1>
+            <h2>(Here there be hacks)</h2>
+          </section>
+
+          <section>
+            <h2>Private Mode</h2>
+            <p>Not just for hiding things</p>
+          </section>
+
+          <section>
+            <h2>Extra Users</h2>
+            <p>For when Private Mode isn't enough</p>
+          </section>
+
+          <section>
+            <h2>Breakpoint Actions</h2>
+            <p>Use and abuse of conditional breakpoints for fun and profit*</p>
+            <p><em>* There may not be profit</em></p>
+          </section>
+
+          <section>
+            <h2>Crimes Against Production</h2>
+            <a href="images/breakpoint-abuse.png">
+              <img src="images/breakpoint-abuse.png" alt="Breakpoint abuse">
+            </a>
+          </section>
+
+          <section>
+            <h2>`console.group` EXTREME!!1!</h2>
+            <pre><code>    _(toWrap)
+        .chain()
+        .functions()
+        .each(function (method) {
+          var oldMethod = toWrap[method];
+
+          toWrap[method] = function () {
+            var groupName = identifier + ': ' + method;
+            console.group(groupName);
+            console.log('%s args: %o', method, arguments);
+
+            var value = oldMethod.apply(this, arguments);
+
+            console.log('%s return value: %o', method, value);
+            console.groupEnd(groupName);
+
+            return value;
+          };
+        });</code></pre>
+            <a href="https://gist.github.com/brianarn/8951284">https://gist.github.com/brianarn/8951284</a>
+          </section>
+
+        </section><!--/#techniques-->
+
+        <section id="resources">
+
+          <section>
+            <h2>Resources</h2>
+            <ul>
+              <li><a href="http://discover-devtools.codeschool.com">Discover DevTools</a></li>
+              <li><a href="https://developers.google.com/chrome-developer-tools/docs/commandline-api">Command Line API (Chrome)</a></li>
+              <li><a href="http://getfirebug.com/wiki/index.php/Command_Line_API">Command Line API (Firebug)</a></li>
+              <li><a href="https://developers.google.com/chrome-developer-tools/docs/console-api">Console API (Chrome)</a></li>
+              <li><a href="http://www.randomthink.net/blog/2012/11/breakpoint-actions-in-javascript/">Breakpoint Actions in JavaScript</a></li>
+              <li><a href="http://www.html5rocks.com/en/tutorials/developertools/async-call-stack/">Debugging Async JS with Chrome DevTools</a></li>
+            </ul>
+          </section>
+
+        </section><!--/#resources-->
+
+      </div><!--/.slides-->
 
     </div> <!--/.reveal-->
 
@@ -777,7 +259,7 @@
     </div> <!--/#logo-->
 
     <footer>
-      <p>BV Training: Unique things in JS</p>
+      <p>Digging, Debugging: BV.IO 2014</p>
     </footer>
 
     <script src="lib/js/head.min.js"></script>
